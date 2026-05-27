@@ -11,7 +11,7 @@ Proxmox → vmbr0 (LAN to internal network)
 
 The OPNsense ISO was uploaded to Proxmox storage and verified.
 
-![ISO Upload](screenshots/screenshots/iso-upload-success.png)
+![ISO Upload](screenshots/iso-upload-success.png)
 
 ## Virtual Machine Creation
 
@@ -19,31 +19,31 @@ The OPNsense ISO was uploaded to Proxmox storage and verified.
 - VM Name: OPNsense
 - Guest OS Type: Other
 
-![General](screenshots/screenshots/vm-creation-general.png)
+![General](screenshots/vm-creation-general.png)
 
 ### System
 - BIOS: OVMF (UEFI)
 - Machine Type: q35
 - EFI Disk enabled
 
-![System](screenshots/screenshots/vm-creation-system.png)
+![System](screenshots/vm-creation-system.png)
 
 ### Disks
 - Storage: local-lvm
 - Disk size: 32GB
 - Bus/Device: VirtIO
 
-![Disks](screenshots/screenshots/vm-creation-disks.png)
+![Disks](screenshots/vm-creation-disks.png)
 
 ### CPU
 - 2 cores assigned
 
-![CPU](screenshots/screenshots/vm-creation-cpu.png)
+![CPU](screenshots/vm-creation-cpu.png)
 
 ### Memory
 - 4GB RAM allocated
 
-![Memory](screenshots/screenshots/vm-creation-memory.png)
+![Memory](screenshots/vm-creation-memory.png)
 
 ### Network
 - Adapter Model: VirtIO (paravirtualized)
@@ -51,7 +51,7 @@ The OPNsense ISO was uploaded to Proxmox storage and verified.
   - net0 → vmbr0 (LAN)
   - net1 → vmbr1 (WAN)
 
-![Network](screenshots/screenshots/vm-creation-network.png)
+![Network](screenshots/vm-creation-network.png)
 
 ## Boot Issues & Fix
 
@@ -59,15 +59,15 @@ Initial boot failed due to incorrect boot order.
 
 ### Before
 
-![Boot Order Before](screenshots/screenshots/boot-order-before.png)
+![Boot Order Before](screenshots/boot-order-before.png)
 
 ### After
 
-![Boot Order After WAN](screenshots/screenshots/boot-order-after-wan.png)
+![Boot Order After WAN](screenshots/boot-order-after-wan.png)
 
 ### WAN Interface Verification
 
-![WAN Interface](screenshots/screenshots/network-wan-vmbr1.png)
+![WAN Interface](screenshots/network-wan-vmbr1.png)
 
 ### Fix:
 - Moved CD-ROM (ISO) above disk to start the installer
@@ -89,39 +89,39 @@ Installation steps:
 
 #### Keymap
 
-![Keymap](screenshots/screenshots/opnsense-install-keymap.png)
+![Keymap](screenshots/opnsense-install-keymap.png)
 
 #### Installer Menu
 
-![Installer Menu](screenshots/screenshots/opnsense-install-menu.png)
+![Installer Menu](screenshots/opnsense-install-menu.png)
 
 #### Disk Selection
 
-![Disk Selection](screenshots/screenshots/opnsense-install-disk-selection.png)
+![Disk Selection](screenshots/opnsense-install-disk-selection.png)
 
 #### Swap
 
-![Swap](screenshots/screenshots/opnsense-install-swap.png)
+![Swap](screenshots/opnsense-install-swap.png)
 
 #### Confirm Disk
 
-![Confirm Disk](screenshots/screenshots/opnsense-install-confirm-disk.png)
+![Confirm Disk](screenshots/opnsense-install-confirm-disk.png)
 
 #### Install Progress
 
-![Progress](screenshots/screenshots/opnsense-install-progress.png)
+![Progress](screenshots/opnsense-install-progress.png)
 
 #### Set Password
 
-![Set Password](screenshots/screenshots/opnsense-install-set-password.png)
+![Set Password](screenshots/opnsense-install-set-password.png)
 
 #### Install Complete
 
-![Install Complete](screenshots/screenshots/opnsense-install-complete.png)
+![Install Complete](screenshots/opnsense-install-complete.png)
 
 #### Reboot
 
-![Reboot](screenshots/screenshots/opnsense-install-reboot.png)
+![Reboot](screenshots/opnsense-install-reboot.png)
 
 ## Post-Install Console Output
 Access the web UI at https://192.168.1.1 (self-signed certificate).
@@ -135,7 +135,7 @@ After installation, OPNsense displayed:
 
 The system successfully booted into the OPNsense environment.
 
-![Console Output](screenshots/screenshots/opnsense-post-install-console.png)
+![Console Output](screenshots/opnsense-post-install-console.png)
 
 ## Key Takeaways
 
