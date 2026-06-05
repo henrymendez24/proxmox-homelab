@@ -2,7 +2,7 @@
 
 ## Overview
 This phase focused on the initial deployment and configuration of OPNsense inside my Proxmox homelab environment. The goal was to move from a basic virtual machine setup into a more realistic firewall and routing environment while preparing for future VLANs, segmentation, and remote management.
-
+![OPNsense Dashboard](screenshots/phase3-opnsense-dashboard-management-network.png)
 ---
 
 ## Objectives
@@ -38,6 +38,18 @@ This phase focused on the initial deployment and configuration of OPNsense insid
 8. Prepared the environment for bridge mode migration
 
 ---
+
+## Management Network Validation
+
+Proxmox management access was successfully migrated to the dedicated management network and validated through the web interface.
+
+![Proxmox Management Access](screenshots/phase3-proxmox-management-access-validation.png)
+
+## Bridge Mode Migration
+
+The Xfinity XB8 gateway was successfully placed into bridge mode, allowing OPNsense to function as the primary router and firewall while eliminating double NAT.
+
+![XB8 Bridge Mode Enabled](screenshots/phase3-xfinity-bridge-mode-enabled.png)
 
 ## Screenshots Included
 The screenshots in this section document:
