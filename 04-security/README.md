@@ -84,10 +84,11 @@ The screenshots in this section document:
 **Key Configuration Steps**
 
 1. Define VLAN strategy and IP schema:
-   - VLAN 10 – Management (192.168.10.0/24)
-   - VLAN 20 – Trusted LAN (192.168.20.0/24)
+   - MGMT – Management (192.168.99.0/24, opt1/vtnet2 — untagged, not a VLAN)
+   - VLAN 10 – Trusted (192.168.10.0/24)
+   - VLAN 20 – Servers (192.168.20.0/24)
    - VLAN 30 – IoT (192.168.30.0/24)
-   - VLAN 40 – DMZ (192.168.40.0/24)
+   - VLAN 40 – Lab (192.168.40.0/24)
 2. Enable VLAN-aware bridging on the Proxmox bridge
 3. Create VLAN interfaces in OPNsense (Interfaces → Other Types → VLAN)
 4. Assign and enable each VLAN interface in OPNsense
