@@ -94,7 +94,7 @@ The screenshots in this section document:
 4. Assign and enable each VLAN interface in OPNsense
 5. Configure DHCP server for each VLAN
 6. Set inter-VLAN firewall rules (default deny between segments)
-7. Add selective allow rules (e.g. Trusted → Management, block IoT → Trusted)
+7. Add selective allow rules (e.g. Trusted → MGMT for admin access, block IoT → Trusted)
 8. Test segmentation with cross-VLAN ping tests
 
 **Screenshots Included**
