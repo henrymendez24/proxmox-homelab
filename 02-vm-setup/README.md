@@ -4,8 +4,8 @@
 This lab simulates deploying a virtual firewall/router in a homelab environment by creating and installing an OPNsense virtual machine in Proxmox.
 
 **Topology (high-level):**
-Proxmox → vmbr1 (WAN to ISP/router)  
-Proxmox → vmbr0 (LAN to internal network)
+Proxmox → vmbr0 (WAN to ISP/router)  
+Proxmox → vmbr1 (LAN to internal network)
 
 ## ISO Upload
 
@@ -48,8 +48,8 @@ The OPNsense ISO was uploaded to Proxmox storage and verified.
 ### Network
 - Adapter Model: VirtIO (paravirtualized)
 - Interfaces:
-  - net0 → vmbr0 (LAN)
-  - net1 → vmbr1 (WAN)
+  - net0 → vmbr0 (WAN)
+  - net1 → vmbr1 (LAN)
 
 ![Network](screenshots/vm-creation-network.png)
 
@@ -65,9 +65,11 @@ Initial boot failed due to incorrect boot order.
 
 ![Boot Order After WAN](screenshots/boot-order-after-wan.png)
 
-### WAN Interface Verification
+### Network Devices After the Fix
 
-![WAN Interface](screenshots/network-wan-vmbr1.png)
+net0 → vmbr0 (WAN), net1 → vmbr1 (LAN)
+
+![Network devices](screenshots/network-wan-vmbr1.png)
 
 ### Fix:
 - Moved CD-ROM (ISO) above disk to start the installer
@@ -141,7 +143,7 @@ The system successfully booted into the OPNsense environment.
 
 - Confirmed internet access from LAN after install (via WAN DHCP)
 - VirtIO was used for better performance in Proxmox
-- Separate WAN bridge (vmbr1) was created later for proper network separation
+- A separate LAN bridge (vmbr1) was added so WAN (vmbr0) and LAN traffic stay apart
 - Identified and resolved a boot order misconfiguration during VM deployment
 - Verified WAN connectivity via DHCP assignment after initial boot
 
@@ -153,4 +155,4 @@ Proceed to initial OPNsense configuration (next phase of the lab):
 - Connectivity testing
 
 ## Follow-up
-See: [OPNsense Initial Configuration](screenshots/../opnsense-initial-configuration/README.md)
+See: [Phase 3 – OPNsense Deployment](../03-opnsense-deployment/)
