@@ -100,7 +100,7 @@ Two-factor authentication, before and after:
 ![2FA setup](screenshots/phase4.2-03-proxmox-2fa-setup.png)
 ![2FA enabled](screenshots/phase4.2-04-proxmox-2fa-enabled.png)
 
-Tailscale access rules on the Proxmox firewall:
+Tailscale (TS) interface rules on OPNsense, which control what remote devices can reach:
 
 ![Tailscale rules](screenshots/phase4.2-05-proxmox-firewall-ts-rules.png)
 ![Editing a Tailscale rule](screenshots/phase4.2-06-proxmox-firewall-ts-rule-edit.png)
