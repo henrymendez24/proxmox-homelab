@@ -8,11 +8,22 @@ This phase focused on hardening the homelab environment across four areas: OPNse
 
 ---
 
+## Status
+
+| Sub-Phase | Status |
+|---|---|
+| 4.1 – OPNsense IDS/IPS (Suricata) | ✅ Complete |
+| 4.2 – Proxmox Host Hardening | ✅ Complete |
+| 4.3 – Network Segmentation / VLANs | 🟡 VLANs built and verified in [Phase 5](../05-vlans/); least-privilege rules between VLANs next |
+| 4.4 – Certificate Management | 🔲 Planned |
+
+---
+
 ## Objectives
 
 - Enable and tune Suricata IDS/IPS on OPNsense for threat detection
 - Harden the Proxmox host (disable root SSH, enable 2FA, configure datacenter firewall)
-- Design and implement VLAN segmentation (Trusted, IoT, Management, DMZ)
+- Design and implement VLAN segmentation (Trusted, Servers, IoT, Lab, Management)
 - Replace self-signed certificates with trusted certs via Let's Encrypt or an internal CA
 
 ---
@@ -32,7 +43,7 @@ This phase focused on hardening the homelab environment across four areas: OPNse
 
 ## Phase Breakdown
 
-### Phase 4.1 – OPNsense IDS/IPS (Suricata)
+### Phase 4.1 – OPNsense IDS/IPS (Suricata) ✅
 
 **Key Configuration Steps**
 
@@ -44,19 +55,28 @@ This phase focused on hardening the homelab environment across four areas: OPNse
 6. Tune false positives by suppressing noisy rules
 7. Validate IPS is blocking test traffic
 
-**Screenshots Included**
+**Screenshots**
 
-The screenshots in this section document:
+Suricata settings:
 
-- Suricata plugin installation
-- Interface configuration (WAN, IPS mode)
-- Ruleset download and activation
-- Live alert log
-- IPS block confirmation
+![Suricata settings](screenshots/phase4.1-01-suricata-settings.png)
+
+Downloading the rulesets:
+
+![Ruleset download, part 1](screenshots/phase4.1-02-suricata-download-rulesets-part1.png)
+![Ruleset download, part 2](screenshots/phase4.1-03-suricata-download-rulesets-part2.png)
+
+Active rules:
+
+![Suricata rules](screenshots/phase4.1-04-suricata-rules.png)
+
+Live alerts:
+
+![Suricata alerts](screenshots/phase4.1-05-suricata-alerts.png)
 
 ---
 
-### Phase 4.2 – Proxmox Host Hardening
+### Phase 4.2 – Proxmox Host Hardening ✅
 
 **Key Configuration Steps**
 
@@ -68,50 +88,56 @@ The screenshots in this section document:
 6. Disable the Proxmox subscription nag (optional)
 7. Review and restrict API token permissions
 
-**Screenshots Included**
+**Screenshots**
 
-The screenshots in this section document:
+SSH hardening:
 
-- SSH hardening config
-- Proxmox 2FA setup (TOTP enrollment)
-- Datacenter firewall rules
-- Non-root user creation and permissions
+![SSH hardening](screenshots/phase4.2-01-proxmox-ssh-hardening.png)
 
----
+Two-factor authentication, before and after:
 
-### Phase 4.3 – Network Segmentation / VLANs
+![2FA before](screenshots/phase4.2-02-proxmox-2fa-before.png)
+![2FA setup](screenshots/phase4.2-03-proxmox-2fa-setup.png)
+![2FA enabled](screenshots/phase4.2-04-proxmox-2fa-enabled.png)
 
-**Key Configuration Steps**
+Tailscale access rules on the Proxmox firewall:
 
-1. Define VLAN strategy and IP schema:
-   - MGMT – Management (192.168.99.0/24, opt1/vtnet2 — untagged, not a VLAN)
-   - VLAN 10 – Trusted (192.168.10.0/24)
-   - VLAN 20 – Servers (192.168.20.0/24)
-   - VLAN 30 – IoT (192.168.30.0/24)
-   - VLAN 40 – Lab (192.168.40.0/24)
-2. Enable VLAN-aware bridging on the Proxmox bridge
-3. Create VLAN interfaces in OPNsense (Interfaces → Other Types → VLAN)
-4. Assign and enable each VLAN interface in OPNsense
-5. Configure DHCP server for each VLAN
-6. Set inter-VLAN firewall rules (default deny between segments)
-7. Add selective allow rules (e.g. Trusted → MGMT for admin access, block IoT → Trusted)
-8. Test segmentation with cross-VLAN ping tests
+![Tailscale rules](screenshots/phase4.2-05-proxmox-firewall-ts-rules.png)
+![Editing a Tailscale rule](screenshots/phase4.2-06-proxmox-firewall-ts-rule-edit.png)
+![Tailscale rules applied](screenshots/phase4.2-07-proxmox-firewall-ts-rules-applied.png)
 
-**Screenshots Included**
+Building the management rules, from an empty rule set to the firewall enabled:
 
-The screenshots in this section document:
-
-- VLAN interface creation in OPNsense
-- DHCP scope configuration per VLAN
-- Inter-VLAN firewall rules
-- Proxmox VLAN-aware bridge config
-- Segmentation test results
+![Empty firewall](screenshots/phase4.2-08-proxmox-firewall-empty.png)
+![SSH rule](screenshots/phase4.2-09-proxmox-firewall-ssh-rule.png)
+![Web UI rule](screenshots/phase4.2-10-proxmox-firewall-webui-rule.png)
+![HTTPS rule](screenshots/phase4.2-11-proxmox-firewall-https-rule.png)
+![All rules](screenshots/phase4.2-12-proxmox-firewall-all-rules.png)
+![Firewall enabled](screenshots/phase4.2-13-proxmox-firewall-enabled.png)
 
 ---
 
-### Phase 4.4 – Certificate Management
+### Phase 4.3 – Network Segmentation / VLANs 🟡
 
-**Key Configuration Steps**
+The VLAN build is documented in full in **[Phase 5 – VLANs](../05-vlans/)**.
+
+**Done**
+- VLAN-aware Proxmox bridge and OPNsense trunk carrying VLANs 10, 20, 30 and 40
+- VLAN interfaces and Kea DHCP scopes in OPNsense
+- Domain controller moved to the Servers VLAN (20) and verified
+- Separate out-of-band management network (192.168.99.0/24)
+
+**Next**
+- Default deny between VLANs, with only explicit exceptions allowed
+- IoT (30) limited to internet access only
+- Lab (40) isolated from Servers and Trusted
+- Cross-VLAN block tests, with screenshots
+
+---
+
+### Phase 4.4 – Certificate Management 🔲
+
+**Planned Steps**
 
 1. Choose certificate strategy (Let's Encrypt for public domain OR internal CA for LAN-only)
 2. **Let's Encrypt path:** Install ACME plugin in OPNsense, configure DNS challenge, issue cert for OPNsense web UI
@@ -120,16 +146,6 @@ The screenshots in this section document:
 5. Issue and install a certificate for the Proxmox web UI
 6. Import the CA cert into browser/OS trust store on admin machines
 7. Verify HTTPS access with no browser warnings on both UIs
-
-**Screenshots Included**
-
-The screenshots in this section document:
-
-- ACME plugin setup (Let's Encrypt path)
-- Internal CA creation (OpenSSL path)
-- Certificate assignment on OPNsense
-- Certificate assignment on Proxmox
-- Browser showing valid HTTPS with no warnings
 
 ---
 
@@ -140,22 +156,9 @@ The screenshots in this section document:
 - Multi-factor authentication
 - VLAN design and implementation
 - Firewall rule logic and network segmentation
-- Certificate authority management
-- TLS/HTTPS configuration
 
 ---
 
 ## Notes
 
-This phase transformed the homelab from a functional default setup into a hardened, segmented environment closer to real-world network architecture. Each sub-phase builds on the previous one — segmentation is most effective once the firewall (IDS/IPS) and host access (Proxmox hardening) are locked down first. Certificate management is done last so valid HTTPS is available across all management interfaces before moving into the Docker services phase.
-
----
-
-## Status
-
-| Sub-Phase | Status |
-|---|---|
-| 4.1 – OPNsense IDS/IPS (Suricata) | 🔲 Not Started |
-| 4.2 – Proxmox Host Hardening | 🔲 Not Started |
-| 4.3 – Network Segmentation / VLANs | 🔲 Not Started |
-| 4.4 – Certificate Management | 🔲 Not Started |
+This phase moved the homelab from a functional default setup toward a hardened, segmented environment closer to real-world network architecture. Each sub-phase builds on the previous one: segmentation is most effective once the firewall (IDS/IPS) and host access (Proxmox hardening) are locked down first. Certificate management comes last so valid HTTPS is available across all management interfaces.
